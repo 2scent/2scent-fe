@@ -19,7 +19,10 @@ const Header = () => {
       </Link>
       {user ? 
         (
-          <p onClick={logout}>logout</p>
+          <div>
+            <p>{user.name}</p>
+            <p onClick={logout}>logout</p>
+          </div>
         )
         :
         (
