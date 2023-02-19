@@ -5,12 +5,17 @@ import ProductItem from './ProductItem';
 
 type ProductListProps = {
   products: Product[];
+  onClick: (product: Product) => void;
 };
 
-const ProductList = ({ products }: ProductListProps) => (
+const ProductList = ({ products, onClick }: ProductListProps) => (
   <Container>
     {products.map((product) => (
-      <ProductItem key={product.id} product={product} />
+      <ProductItem
+        key={product.id}
+        product={product}
+        onClick={onClick}
+      />
     ))}
   </Container>
 );

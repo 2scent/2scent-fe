@@ -4,15 +4,22 @@ import { Product } from '../types/product';
 
 type ProductItemProps = {
   product: Product;
+  onClick: (product: Product) => void;
 };
 
-const ProductItem = ({ product: { name, thumbnail, price } }: ProductItemProps) => (
-  <Container>
-    <Thumbnail src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} />
-    <Name>{name}</Name>
-    <Price>{price}</Price>
-  </Container>
-);
+const ProductItem = ({ product, onClick }: ProductItemProps) => {
+  const handleClick = () => onClick(product);
+
+  const { name, thumbnail, price } = product;
+
+  return (
+    <Container onClick={handleClick}>
+      <Thumbnail src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} />
+      <Name>{name}</Name>
+      <Price>{price}</Price>
+    </Container>
+  );
+}
 
 export default ProductItem;
 

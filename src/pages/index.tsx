@@ -26,7 +26,10 @@ const HomePage: NextPage = () => {
     <>
       <Header />
       <Container>
-        <ProductList products={products} />
+        <ProductList
+          products={products}
+          onClick={({ id }) => router.push(`/products/${id}`)}
+        />
         <Pagination
           currentPage={currentPage}
           totalItemsCount={totalCount}
