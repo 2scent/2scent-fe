@@ -18,7 +18,13 @@ const fetchUser = async (user: User | null | undefined): Promise<User | null> =>
   return data.user;
 };
 
-const useUser = () => {
+type UseUser = {
+  user?: User;
+  updateUser: (user: User) => void;
+  clearUser: () => void;
+};
+
+const useUser = (): UseUser => {
   const queryClient = useQueryClient();
 
   const { data: user } = useQuery<User>(
