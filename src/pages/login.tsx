@@ -2,16 +2,14 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import Link from 'next/link';
 import type { NextPage } from 'next';
 
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
 import TextField from '../components/TextField';
 
-import useUser from '../hooks/use-user';
 import useLogin from '../hooks/use-login';
-import useLogout from '../hooks/use-logout';
+import Header from '../components/Header';
 
 type FormInputs = {
   id: string;
@@ -26,32 +24,14 @@ const LoginPage: NextPage = () => {
   } = useForm<FormInputs>({ mode: 'onBlur' });
   
   const login = useLogin({ redirectUrl: '/' });
-  const logout = useLogout();
 
   const onSubmit: SubmitHandler<FormInputs> = data => {
     login(data);
   };
-  
-  const { user } = useUser();
 
   return (
     <>
-      <Header>
-        <Link href='/'>
-          <Title>HAUS</Title>
-        </Link>
-        {user ? 
-          (
-            <p onClick={logout}>logout</p>
-          )
-          :
-          (
-            <Link href='/login'>
-              <p>login</p>
-            </Link>
-          )
-        }
-      </Header>
+      <Header />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Controller
           control={control}
@@ -109,17 +89,6 @@ const LoginPage: NextPage = () => {
 };
 
 export default LoginPage;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-`;
-
-const Title = styled.a`
-  font-size: 48px;
-`;
 
 const Form = styled.form`
   display: flex;
