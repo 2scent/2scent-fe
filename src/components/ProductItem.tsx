@@ -16,7 +16,7 @@ const ProductItem = ({ product, onClick }: ProductItemProps) => {
     <Container onClick={handleClick}>
       <Thumbnail src={thumbnail ? thumbnail : '/defaultThumbnail.jpg'} />
       <Name>{name}</Name>
-      <Price>{price}</Price>
+      <Price>{price.toLocaleString()}원</Price>
     </Container>
   );
 }
