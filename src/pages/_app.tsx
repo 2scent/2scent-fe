@@ -1,3 +1,10 @@
+import React from 'react';
+
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+
 import type { AppProps } from 'next/app';
 import styled from 'styled-components';
 
@@ -6,15 +13,17 @@ import GlobalStyle from '../styles/GlobalStyle';
 
 setupMSW();
 
+const queryClient = new QueryClient();
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <GlobalStyle />
       <Background />
       <Content>
         <Component {...pageProps} />
       </Content>
-    </>
+    </QueryClientProvider>
   );
 }
 

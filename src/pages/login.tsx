@@ -9,14 +9,30 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
 import TextField from '../components/TextField';
 
+import useUser from '../hooks/use-user';
+import useLogin from '../hooks/use-login';
+import useLogout from '../hooks/use-logout';
+
 type FormInputs = {
   id: string;
   password: string;
 };
 
 const LoginPage: NextPage = () => {
-  const { handleSubmit, control, formState: { isValid } } = useForm<FormInputs>({ mode: 'onBlur' });
-  const onSubmit: SubmitHandler<FormInputs> = data => console.log(data);
+  const { 
+    handleSubmit, 
+    control, 
+    formState: { isValid } 
+  } = useForm<FormInputs>({ mode: 'onBlur' });
+  
+  const login = useLogin({ redirectUrl: '/' });
+  const logout = useLogout();
+
+  const onSubmit: SubmitHandler<FormInputs> = data => {
+    login(data);
+  };
+  
+  const { user } = useUser();
 
   return (
     <>
@@ -24,9 +40,17 @@ const LoginPage: NextPage = () => {
         <Link href='/'>
           <Title>HAUS</Title>
         </Link>
-        <Link href='/login'>
-          <p>login</p>
-        </Link>
+        {user ? 
+          (
+            <p onClick={logout}>logout</p>
+          )
+          :
+          (
+            <Link href='/login'>
+              <p>login</p>
+            </Link>
+          )
+        }
       </Header>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Controller
