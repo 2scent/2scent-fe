@@ -13,7 +13,13 @@ import GlobalStyle from '../styles/GlobalStyle';
 
 setupMSW();
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+    },
+  },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
