@@ -40,7 +40,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['product'], () => fetchProduct({ productId }));
+  await queryClient.prefetchQuery(['product', productId], () => fetchProduct({ productId }));
 
   return {
     props: {
