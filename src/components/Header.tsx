@@ -21,13 +21,13 @@ const Header = () => {
         (
           <div>
             <p>{user.name}</p>
-            <p onClick={logout}>logout</p>
+            <Button onClick={logout}>logout</Button>
           </div>
         )
         :
         (
           <Link href='/login'>
-            <p>login</p>
+            <Button>login</Button>
           </Link>
         )
       }
@@ -44,6 +44,11 @@ const Container = styled.header`
   padding: 20px;
 `;
 
-const Title = styled.a`
+const Title = styled.p`
   font-size: 48px;
+  cursor: pointer;
+`;
+
+const Button = styled.button`
+  cursor: pointer;
 `;
