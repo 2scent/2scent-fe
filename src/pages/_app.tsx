@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  Hydrate,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
@@ -24,11 +25,13 @@ const queryClient = new QueryClient({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <GlobalStyle />
-      <Background />
-      <Content>
-        <Component {...pageProps} />
-      </Content>
+      <Hydrate state={pageProps.dehydratedState}>
+        <GlobalStyle />
+        <Background />
+        <Content>
+          <Component {...pageProps} />
+        </Content>
+      </Hydrate>
     </QueryClientProvider>
   );
 }

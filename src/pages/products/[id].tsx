@@ -1,7 +1,13 @@
 import React from 'react';
 
-import type { NextPage } from 'next';
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
+
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+
+import { arrayRange } from '../../utils';
+
+import { fetchProduct } from '../../hooks/use-product';
 
 import Header from '../../components/Header';
 import AsyncBoundaryWithQuery from '../../components/AsyncBoundaryWithQuery';
@@ -28,3 +34,26 @@ const ProductDetailPage: NextPage = () => {
 };
 
 export default ProductDetailPage;
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const productId = context.params?.id as string ?? '';
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(['product'], () => fetchProduct({ productId }));
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = arrayRange(1, 10).map((i) => ({ params: { id: String(i) }}));
+
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+}

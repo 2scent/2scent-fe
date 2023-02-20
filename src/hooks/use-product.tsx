@@ -14,7 +14,7 @@ type FetchProductResponse = {
   };
 };
 
-const fetchProduct = async ({ productId }: FetchProductProps) => {
+export const fetchProduct = async ({ productId }: FetchProductProps) => {
   const { data: { data: { product } } } = await axiosInstance.get<FetchProductResponse>(
     `/products/${productId}`,
   );
