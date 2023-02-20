@@ -107,8 +107,10 @@ const LoginButton = styled.button`
   border-radius: 12px;
   background-color: #222;
   color: #fff;
+  cursor: pointer;
 
   &:disabled {
     background-color: #e2e2ea;
+  cursor: default;
   }
 `;
