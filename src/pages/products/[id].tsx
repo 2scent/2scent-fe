@@ -5,12 +5,13 @@ import { useRouter } from 'next/router';
 
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
+import { ErrorBoundary } from 'react-error-boundary';
+
 import { arrayRange } from '../../utils';
 
 import { fetchProduct } from '../../hooks/use-product';
 
 import Header from '../../components/Header';
-import AsyncBoundaryWithQuery from '../../components/AsyncBoundaryWithQuery';
 import ProductDetailContainer from '../../components/ProductDetailContainer';
 
 const ProductDetailPage: NextPage = () => {
@@ -21,14 +22,13 @@ const ProductDetailPage: NextPage = () => {
   return (
     <>
       <Header />
-      <AsyncBoundaryWithQuery
-          pendingFallback={<p>로딩 중</p>}
-          rejectedFallback={() => <p>존재하지 않는 페이지입니다.</p>}
+        <ErrorBoundary
+          FallbackComponent={() => <p>존재하지 않는 페이지입니다.</p>}
         >
         <ProductDetailContainer
           productId={productId}
         />
-      </AsyncBoundaryWithQuery>
+      </ErrorBoundary>
     </>
   );
 };

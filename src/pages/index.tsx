@@ -5,7 +5,8 @@ import { useRouter } from 'next/router';
 
 import styled from 'styled-components';
 
-import AsyncBoundaryWithQuery from '../components/AsyncBoundaryWithQuery';
+import { ErrorBoundary } from 'react-error-boundary';
+
 import Header from '../components/Header';
 import ProductListContainer from '../components/ProductListContainer';
 
@@ -18,16 +19,15 @@ const HomePage: NextPage = () => {
     <>
       <Header />
       <Container>
-        <AsyncBoundaryWithQuery
-          pendingFallback={<p>로딩 중</p>}
-          rejectedFallback={() => <p>존재하지 않는 페이지입니다.</p>}
+        <ErrorBoundary
+          FallbackComponent={() => <p>존재하지 않는 페이지입니다.</p>}
         >
           <ProductListContainer
             page={currentPage}
             onClickProduct={({ id }) => router.push(`/products/${id}`)}
             setPage={(page) => router.push(`${router.basePath}?page=${page}`)}
           />
-        </AsyncBoundaryWithQuery>
+        </ErrorBoundary>
       </Container>
     </>
   );

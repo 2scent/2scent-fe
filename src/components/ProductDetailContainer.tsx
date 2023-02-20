@@ -9,9 +9,9 @@ type ProductDetailContainerProps = {
 };
 
 const ProductDetailContainer = ({ productId }: ProductDetailContainerProps) => {
-  const { data } = useProduct({ productId });
+  const { data: product } = useProduct({ productId });
 
-  const product = data!;
+  if (!product) return <p>로딩 중</p>;
   
   return (
     <>

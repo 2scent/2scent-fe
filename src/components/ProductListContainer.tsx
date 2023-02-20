@@ -18,7 +18,9 @@ type ProductListContainerProps = {
 const ProductListContainer = ({ page, onClickProduct, setPage }: ProductListContainerProps) => {
   const { data } = useProducts({ page, pageSize });
 
-  const { products, totalCount } = data!;
+  if (!data) return <p>로딩 중</p>;
+
+  const { products, totalCount } = data;
 
   return (
     <>
