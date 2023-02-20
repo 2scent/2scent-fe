@@ -1,11 +1,15 @@
 import React from 'react';
 
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
+
+import { QueryClient, dehydrate } from '@tanstack/react-query';
 
 import styled from 'styled-components';
 
 import { ErrorBoundary } from 'react-error-boundary';
+
+import { fetchProducts } from '../hooks/use-products';
 
 import Header from '../components/Header';
 import ProductListContainer from '../components/ProductListContainer';
@@ -34,6 +38,20 @@ const HomePage: NextPage = () => {
 };
 
 export default HomePage;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const page = Number(context.query.page ?? 1);
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(['products', page], () => fetchProducts({ page }));
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}
 
 const Container = styled.main`
   display: flex;

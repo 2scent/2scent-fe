@@ -11,7 +11,7 @@ type FetchProductsResponse = {
   };
 };
 
-const fetchProducts = async ({ page = 1, pageSize = 10 }) => {
+export const fetchProducts = async ({ page = 1, pageSize = 10 }) => {
   const { data: { data } } = await axiosInstance.get<FetchProductsResponse>(
     `/products?page=${page}&size=${pageSize}`,
   );
