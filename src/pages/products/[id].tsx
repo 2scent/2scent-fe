@@ -22,9 +22,9 @@ const ProductDetailPage: NextPage = () => {
   return (
     <>
       <Header />
-        <ErrorBoundary
-          FallbackComponent={() => <p>존재하지 않는 페이지입니다.</p>}
-        >
+      <ErrorBoundary
+        FallbackComponent={() => <p>존재하지 않는 페이지입니다.</p>}
+      >
         <ProductDetailContainer
           productId={productId}
         />
