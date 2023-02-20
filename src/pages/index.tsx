@@ -11,7 +11,6 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { fetchProducts } from '../hooks/use-products';
 
-import Header from '../components/Header';
 import ProductListContainer from '../components/ProductListContainer';
 
 const HomePage: NextPage = () => {
@@ -20,20 +19,17 @@ const HomePage: NextPage = () => {
   const currentPage =  Number(page ?? 1);
 
   return (
-    <>
-      <Header />
-      <Container>
-        <ErrorBoundary
-          FallbackComponent={() => <p>존재하지 않는 페이지입니다.</p>}
-        >
-          <ProductListContainer
-            page={currentPage}
-            onClickProduct={({ id }) => router.push(`/products/${id}`)}
-            setPage={(page) => router.push(`${router.basePath}?page=${page}`)}
-          />
-        </ErrorBoundary>
-      </Container>
-    </>
+    <Container>
+      <ErrorBoundary
+        FallbackComponent={() => <p>존재하지 않는 페이지입니다.</p>}
+      >
+        <ProductListContainer
+          page={currentPage}
+          onClickProduct={({ id }) => router.push(`/products/${id}`)}
+          setPage={(page) => router.push(`${router.basePath}?page=${page}`)}
+        />
+      </ErrorBoundary>
+    </Container>
   );
 };
 

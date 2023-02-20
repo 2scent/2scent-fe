@@ -11,7 +11,6 @@ import { arrayRange } from '../../utils';
 
 import { fetchProduct } from '../../hooks/use-product';
 
-import Header from '../../components/Header';
 import ProductDetailContainer from '../../components/ProductDetailContainer';
 
 const ProductDetailPage: NextPage = () => {
@@ -20,16 +19,13 @@ const ProductDetailPage: NextPage = () => {
   const productId = id as string ?? '';
 
   return (
-    <>
-      <Header />
-      <ErrorBoundary
-        FallbackComponent={() => <p>존재하지 않는 페이지입니다.</p>}
-      >
-        <ProductDetailContainer
-          productId={productId}
-        />
-      </ErrorBoundary>
-    </>
+    <ErrorBoundary
+      FallbackComponent={() => <p>존재하지 않는 페이지입니다.</p>}
+    >
+      <ProductDetailContainer
+        productId={productId}
+      />
+    </ErrorBoundary>
   );
 };
 

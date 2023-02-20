@@ -11,6 +11,7 @@ import styled from 'styled-components';
 
 import setupMSW from '../api/setup';
 import GlobalStyle from '../styles/GlobalStyle';
+import Header from '../components/Header';
 
 setupMSW();
 
@@ -29,6 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <GlobalStyle />
         <Background />
         <Content>
+          <Header />
           <Component {...pageProps} />
         </Content>
       </Hydrate>
