@@ -3,52 +3,28 @@ import React from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
-import styled from 'styled-components';
-
-import useProduct from '../../hooks/use-product';
-
 import Header from '../../components/Header';
+import AsyncBoundaryWithQuery from '../../components/AsyncBoundaryWithQuery';
+import ProductDetailContainer from '../../components/ProductDetailContainer';
 
 const ProductDetailPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-
   const productId = id as string ?? '';
-
-  const { data: product } = useProduct({ productId });
-
-  if (!product) return <p>로딩 중</p>;
 
   return (
     <>
       <Header />
-      <Thumbnail src={product.thumbnail ? product.thumbnail : '/defaultThumbnail.jpg'} />
-      <ProductInfoWrapper>
-        <Name>{product.name}</Name>
-        <Price>{product.price.toLocaleString()}원</Price>
-      </ProductInfoWrapper>
+      <AsyncBoundaryWithQuery
+          pendingFallback={<p>로딩 중</p>}
+          rejectedFallback={() => <p>존재하지 않는 페이지입니다.</p>}
+        >
+        <ProductDetailContainer
+          productId={productId}
+        />
+      </AsyncBoundaryWithQuery>
     </>
   );
 };
 
 export default ProductDetailPage;
-
-const Thumbnail = styled.img`
-  width: 100%;
-  height: 420px;
-`;
-
-const ProductInfoWrapper = styled.div`
-  margin-top: 20px;
-  padding: 0 20px;
-`;
-
-const Name = styled.div`
-  font-size: 20px;
-  font-weight: bold;
-`;
-
-const Price = styled.div`
-  font-size: 18px;
-  margin-top: 8px;
-`;
