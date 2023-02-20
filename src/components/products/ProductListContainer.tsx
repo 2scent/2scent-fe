@@ -8,7 +8,7 @@ import Pagination from '../common/Pagination';
 
 import ProductList from './ProductList';
 
-const pageSize = 10;
+export const pageSize = 10;
 
 type ProductListContainerProps = {
   page: number;

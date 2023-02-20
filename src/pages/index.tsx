@@ -11,7 +11,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { fetchProducts } from '../hooks/use-products';
 
-import ProductListContainer from '../components/products/ProductListContainer';
+import ProductListContainer, { pageSize } from '../components/products/ProductListContainer';
 
 const HomePage: NextPage = () => {
   const router = useRouter();
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(['products', page], () => fetchProducts({ page }));
+  await queryClient.prefetchQuery(['products', page], () => fetchProducts({ page, pageSize }));
 
   return {
     props: {
