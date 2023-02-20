@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 import setupMSW from '../api/setup';
 import GlobalStyle from '../styles/GlobalStyle';
-import Header from '../components/Header';
+import Header from '../components/common/Header';
 
 setupMSW();
 

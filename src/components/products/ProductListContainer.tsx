@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { Product } from '../types/product';
+import { Product } from '../../types/product';
 
-import useProducts from '../hooks/use-products';
+import useProducts from '../../hooks/use-products';
 
-import ProductList from '../components/ProductList';
-import Pagination from '../components/Pagination';
+import Pagination from '../common/Pagination';
+
+import ProductList from './ProductList';
 
 const pageSize = 10;
 

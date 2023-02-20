@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 import Link from 'next/link';
 
-import useUser from '../hooks/use-user';
-import useLogout from '../hooks/use-logout';
+import useUser from '../../hooks/use-user';
+import useLogout from '../../hooks/use-logout';
 
 const Header = () => {
   const logout = useLogout();

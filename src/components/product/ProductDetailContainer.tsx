@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import useProduct from '../hooks/use-product';
+import useProduct from '../../hooks/use-product';
 
 type ProductDetailContainerProps = {
   productId: string;

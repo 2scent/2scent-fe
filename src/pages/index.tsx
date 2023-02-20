@@ -11,7 +11,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { fetchProducts } from '../hooks/use-products';
 
-import ProductListContainer from '../components/ProductListContainer';
+import ProductListContainer from '../components/products/ProductListContainer';
 
 const HomePage: NextPage = () => {
   const router = useRouter();

@@ -4,9 +4,9 @@ import styled from 'styled-components';
 
 import { VscChevronLeft, VscChevronRight } from 'react-icons/vsc';
 
-import { arrayRange } from '../utils';
+import { arrayRange } from '../../utils';
 
-import usePagination from '../hooks/use-pagination';
+import usePagination from '../../hooks/use-pagination';
 
 type PaginationProps = {
   currentPage: number;

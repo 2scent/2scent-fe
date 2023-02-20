@@ -8,7 +8,7 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
 import useLogin from '../hooks/use-login';
 
-import TextField from '../components/TextField';
+import TextField from '../components/common/TextField';
 
 type FormInputs = {
   id: string;

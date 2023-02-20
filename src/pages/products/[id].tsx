@@ -11,7 +11,7 @@ import { arrayRange } from '../../utils';
 
 import { fetchProduct } from '../../hooks/use-product';
 
-import ProductDetailContainer from '../../components/ProductDetailContainer';
+import ProductDetailContainer from '../../components/product/ProductDetailContainer';
 
 const ProductDetailPage: NextPage = () => {
   const router = useRouter();
