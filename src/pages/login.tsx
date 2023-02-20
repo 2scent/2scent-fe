@@ -29,58 +29,60 @@ const LoginPage: NextPage = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        control={control}
-        name="id"
-        defaultValue=""
-        rules={{
-          required: true,
-          pattern: /^[A-Za-z0-9]{5,30}$/,
-        }}
-        render={({
-          field: { ref, ...rest },
-          fieldState: { error },
-        }) => (
-          <TextField
-            id="id"
-            label="아이디"
-            type="text"
-            maxLength={30}
-            inputRef={ref}
-            error={!!error}
-            errorMessage="올바른 아이디 형식으로 입력해주세요."
-            {...rest}
-          />
-        )}
-      />
-      <Gap />
-      <Controller
-        control={control}
-        name="password"
-        defaultValue=""
-        rules={{
-          required: true,
-          pattern: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,30}$/,
-        }}
-        render={({
-          field: { ref, ...rest },
-          fieldState: { error },
-        }) => (
-          <TextField
-            id="password"
-            label="비밀번호"
-            type="password"
-            maxLength={30}
-            error={!!error}
-            errorMessage="올바른 비밀번호 형식으로 입력해주세요."
-            inputRef={ref}
-            {...rest}
-          />
-        )}
-      />
-      <LoginButton disabled={!isValid} type='submit'>로그인</LoginButton>
-    </Form>
+    <main>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          control={control}
+          name="id"
+          defaultValue=""
+          rules={{
+            required: true,
+            pattern: /^[A-Za-z0-9]{5,30}$/,
+          }}
+          render={({
+            field: { ref, ...rest },
+            fieldState: { error },
+          }) => (
+            <TextField
+              id="id"
+              label="아이디"
+              type="text"
+              maxLength={30}
+              inputRef={ref}
+              error={!!error}
+              errorMessage="올바른 아이디 형식으로 입력해주세요."
+              {...rest}
+            />
+          )}
+        />
+        <Gap />
+        <Controller
+          control={control}
+          name="password"
+          defaultValue=""
+          rules={{
+            required: true,
+            pattern: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,30}$/,
+          }}
+          render={({
+            field: { ref, ...rest },
+            fieldState: { error },
+          }) => (
+            <TextField
+              id="password"
+              label="비밀번호"
+              type="password"
+              maxLength={30}
+              error={!!error}
+              errorMessage="올바른 비밀번호 형식으로 입력해주세요."
+              inputRef={ref}
+              {...rest}
+            />
+          )}
+        />
+        <LoginButton disabled={!isValid} type='submit'>로그인</LoginButton>
+      </Form>
+    </main>
   );
 };
 

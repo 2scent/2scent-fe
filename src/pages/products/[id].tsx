@@ -19,13 +19,15 @@ const ProductDetailPage: NextPage = () => {
   const productId = id as string ?? '';
 
   return (
-    <ErrorBoundary
-      FallbackComponent={() => <p>존재하지 않는 페이지입니다.</p>}
-    >
-      <ProductDetailContainer
-        productId={productId}
-      />
-    </ErrorBoundary>
+    <main>
+      <ErrorBoundary
+        FallbackComponent={() => <p>존재하지 않는 페이지입니다.</p>}
+      >
+        <ProductDetailContainer
+          productId={productId}
+        />
+      </ErrorBoundary>
+    </main>
   );
 };
 
