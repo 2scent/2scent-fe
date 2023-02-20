@@ -1,61 +1,57 @@
-import Link from 'next/link';
-import type { NextPage } from 'next';
 import React from 'react';
-import styled from 'styled-components';
 
-import products from '../../api/data/products.json';
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
+
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+
+import { ErrorBoundary } from 'react-error-boundary';
+
+import { arrayRange } from '../../utils';
+
+import { fetchProduct } from '../../hooks/use-product';
+
+import ProductDetailContainer from '../../components/product/ProductDetailContainer';
 
 const ProductDetailPage: NextPage = () => {
-  const product = products[0];
+  const router = useRouter();
+  const { id } = router.query;
+  const productId = id as string ?? '';
 
   return (
-    <>
-      <Header>
-        <Link href='/'>
-          <Title>HAUS</Title>
-        </Link>
-        <Link href='/login'>
-          <p>login</p>
-        </Link>
-      </Header>
-      <Thumbnail src={product.thumbnail ? product.thumbnail : '/defaultThumbnail.jpg'} />
-      <ProductInfoWrapper>
-        <Name>{product.name}</Name>
-        <Price>{product.price}원</Price>
-      </ProductInfoWrapper>
-    </>
+    <main>
+      <ErrorBoundary
+        FallbackComponent={() => <p>존재하지 않는 페이지입니다.</p>}
+      >
+        <ProductDetailContainer
+          productId={productId}
+        />
+      </ErrorBoundary>
+    </main>
   );
 };
 
 export default ProductDetailPage;
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-`;
+export const getStaticProps: GetStaticProps = async (context) => {
+  const productId = context.params?.id as string ?? '';
 
-const Title = styled.a`
-  font-size: 48px;
-`;
+  const queryClient = new QueryClient();
 
-const Thumbnail = styled.img`
-  width: 100%;
-  height: 420px;
-`;
+  await queryClient.prefetchQuery(['product', productId], () => fetchProduct({ productId }));
 
-const ProductInfoWrapper = styled.div`
-  margin-top: 20px;
-  padding: 0 20px;
-`;
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}
 
-const Name = styled.div`
-  font-size: 20px;
-  font-weight: bold;
-`;
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = arrayRange(1, 10).map((i) => ({ params: { id: String(i) }}));
 
-const Price = styled.div`
-  font-size: 18px;
-  margin-top: 8px;
-`;
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+}

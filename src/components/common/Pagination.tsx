@@ -1,21 +1,53 @@
 import React from 'react';
+
 import styled from 'styled-components';
+
 import { VscChevronLeft, VscChevronRight } from 'react-icons/vsc';
 
-const Pagination = () => {
+import { arrayRange } from '../../utils';
+
+import usePagination from '../../hooks/use-pagination';
+
+type PaginationProps = {
+  currentPage: number;
+  totalItemsCount: number;
+  pageSize: number;
+  setPage: (page: number) => void;
+};
+
+const Pagination = ({ currentPage, totalItemsCount, pageSize, setPage }: PaginationProps) => {
+  const {
+    firstPage,
+    lastPage,
+    prevEnabled,
+    nextEnabled,
+  } = usePagination({ currentPage, totalItemsCount, pageSize });
+
   return (
     <Container>
-      <Button disabled>
+      <Button
+        disabled={!prevEnabled}
+        onClick={() => setPage(firstPage - 1)}
+      >
         <VscChevronLeft />
       </Button>
       <PageWrapper>
-        {[1, 2, 3, 4, 5].map((page) => (
-          <Page key={page} selected={page === 1} disabled={page === 1}>
-            {page}
-          </Page>
+        {arrayRange(firstPage, lastPage)
+          .map((page) => (
+            <Page 
+              key={page}
+              selected={page === currentPage}
+              disabled={page === currentPage}
+              onClick={() => setPage(page)}
+            >
+              {page}
+            </Page>
         ))}
       </PageWrapper>
-      <Button disabled={false}>
+      <Button
+        disabled={!nextEnabled}
+        onClick={() => setPage(lastPage + 1)}
+      >
         <VscChevronRight />
       </Button>
     </Container>
@@ -35,6 +67,8 @@ const Container = styled.div`
 `;
 
 const Button = styled.button`
+  cursor: pointer;
+
   &:disabled {
     color: #e2e2ea;
     cursor: default;
@@ -55,6 +89,7 @@ const Page = styled.button<PageType>`
   background-color: ${({ selected }) => (selected ? '#000' : 'transparent')};
   color: ${({ selected }) => (selected ? '#fff' : '#000')};
   font-size: 20px;
+  cursor: pointer;
 
   & + & {
     margin-left: 4px;

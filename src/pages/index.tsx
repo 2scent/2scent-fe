@@ -1,49 +1,55 @@
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import type { NextPage } from 'next';
 import React from 'react';
+
+import type { GetServerSideProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
+
+import { QueryClient, dehydrate } from '@tanstack/react-query';
+
 import styled from 'styled-components';
 
-import products from '../api/data/products.json';
-import ProductList from '../components/ProductList';
-import Pagination from '../components/Pagination';
+import { ErrorBoundary } from 'react-error-boundary';
+
+import { fetchProducts } from '../hooks/use-products';
+
+import ProductListContainer, { pageSize } from '../components/products/ProductListContainer';
 
 const HomePage: NextPage = () => {
   const router = useRouter();
   const { page } = router.query;
+  const currentPage =  Number(page ?? 1);
 
   return (
-    <>
-      <Header>
-        <Link href='/'>
-          <Title>HAUS</Title>
-        </Link>
-        <Link href='/login'>
-          <p>login</p>
-        </Link>
-      </Header>
-      <Container>
-        <ProductList products={products.slice(0, 10)} />
-        <Pagination />
-      </Container>
-    </>
+    <Container>
+      <ErrorBoundary
+        FallbackComponent={() => <p>존재하지 않는 페이지입니다.</p>}
+      >
+        <ProductListContainer
+          page={currentPage}
+          onClickProduct={({ id }) => router.push(`/products/${id}`)}
+          setPage={(page) => router.push(`${router.basePath}?page=${page}`)}
+        />
+      </ErrorBoundary>
+    </Container>
   );
 };
 
 export default HomePage;
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-`;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const page = Number(context.query.page ?? 1);
 
-const Title = styled.a`
-  font-size: 48px;
-`;
+  const queryClient = new QueryClient();
 
-const Container = styled.div`
+  await queryClient.prefetchQuery(['products', page], () => fetchProducts({ page, pageSize }));
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}
+
+const Container = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;

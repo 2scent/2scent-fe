@@ -1,20 +1,40 @@
+import React from 'react';
+
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+
 import type { AppProps } from 'next/app';
 import styled from 'styled-components';
 
 import setupMSW from '../api/setup';
 import GlobalStyle from '../styles/GlobalStyle';
+import Header from '../components/common/Header';
 
 setupMSW();
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      useErrorBoundary: true,
+    },
+  },
+});
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <GlobalStyle />
-      <Background />
-      <Content>
-        <Component {...pageProps} />
-      </Content>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <GlobalStyle />
+        <Background />
+        <Content>
+          <Header />
+          <Component {...pageProps} />
+        </Content>
+      </Hydrate>
+    </QueryClientProvider>
   );
 }
 
