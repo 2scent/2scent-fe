@@ -1,22 +1,8 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useAtom } from 'jotai'
 
 import { User } from '../types/user';
 
-import axiosInstance from '../axios-instance';
-
-type FetchUserResponse = {
-  data: {
-    user: User;
-  };
-};
-
-const fetchUser = async (user: User | null | undefined): Promise<User | null> => {
-  if (!user) return null;
-
-  const { data: { data } } = await axiosInstance.get<FetchUserResponse>(`/users/${user.id}`);
-
-  return data.user;
-};
+import { userAtom } from '../atoms/user';
 
 type UseUser = {
   user?: User;
@@ -25,19 +11,14 @@ type UseUser = {
 };
 
 const useUser = (): UseUser => {
-  const queryClient = useQueryClient();
+  const [user, setUser] = useAtom(userAtom);
 
-  const { data: user } = useQuery<User>(
-    ['user'],
-    () => fetchUser(user),
-  );
-  
   const updateUser = (newUser: User) => {
-    queryClient.setQueryData(['user'], newUser);
+    setUser(newUser);
   };
 
   const clearUser = () => {
-    queryClient.setQueryData(['user'], null);
+    setUser(undefined);
   };
 
   return { user, updateUser, clearUser };
